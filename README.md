@@ -1,4 +1,5 @@
 # Kafka3-Data
+
 build simple consumer (python)
 
 ## ZipBank Project
@@ -29,14 +30,18 @@ transaction Producer
     a simple user by user producer that generates random deposits and withdrawals on random accounts.
 
 a transaction looks like this in pseudocode:
+
 ``` json
 { custid: int, type: W/D, date: now, amt: int }
 ```
+
 so a couple samples in python Dicts.
+
 ``` json
 { custid: 55, type: "Dep", date: 1587398219, amt: 10000 }
 { custid: 55, type: "Wth", date: 1587398301, amt: 2500 }
 ```
+
 which means:
 customer who's id is 55, Deposit, at time 1587398219, a total of $100.00
 customer who's id is 55, Withdraw, at time 1587398301, a total of $25.00
@@ -44,6 +49,7 @@ customer who's id is 55, Withdraw, at time 1587398301, a total of $25.00
 those dates are Unix Epoch second timestamps. [Unix Time](https://en.wikipedia.org/wiki/Unix_time)
 
 to create a new kafka topic (the one you need for the phase1 scripts to work. You only need to do this once.)
+
 ``` bash
 kafka-topics --create \
 --zookeeper localhost:2181 \
@@ -63,7 +69,7 @@ you need to use SQL alchemy to add to the Consumer in phase1 what's needed to sa
 you probably need to create the "database" and the "table" within your Sql Database, and then
 connect to it anytime someone creates a XactionConsumer() object. (so that modifying the __init__ method.)
 
-and that SQLAlchemy  might be something like 
+and that SQLAlchemy  might be something like
 
 ``` python
 class Transaction(Base):
@@ -96,6 +102,7 @@ As each transaction comes in, print a new status of the numerical summaries.
 LimitConsumer should keep track of the customer ids that have current balances greater or equal to the limit supplied to the constructor. The intro suggests -5000 for eaxmple, but you should be able set that with a parameter to the class' Constructor
 
 ## Phase 3
+
 Add different branches for the production of transactions.
 
 Each branch has a branch id, and a different partition in kafka. The consumers for each partition need to handle their branch's customer's transactions.
@@ -104,6 +111,7 @@ The branches also create new customers. Every so often, a create-customer event 
 
 the topic is `bank-customer-new`
 the SQLalchemy might look like
+
 ``` python
 class Customer(Base):
     __tablename__ = 'transaction'
@@ -114,7 +122,9 @@ class Customer(Base):
     fname = Column(String(250), nullable=False)
     lname = Column(String(250), nullable=False)
  ```
+
 a couple samples in python Dicts.
+
 ``` json
 { custid: 55, createdate: 1587398219, fname: 'Lisa' lname: 'Loopner' }
 { custid: 56, createdate: 1587398301, fname: 'Todd' lname: 'Cushman' }
