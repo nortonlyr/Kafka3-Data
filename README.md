@@ -64,6 +64,7 @@ you probably need to create the "database" and the "table" within your Sql Datab
 connect to it anytime someone creates a XactionConsumer() object. (so that modifying the __init__ method.)
 
 and that SQLAlchemy  might be something like 
+
 ``` python
 class Transaction(Base):
     __tablename__ = 'transaction'
