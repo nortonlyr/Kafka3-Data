@@ -29,11 +29,11 @@ transaction Producer
     a simple user by user producer that generates random deposits and withdrawals on random accounts.
 
 a transaction looks like this in pseudocode:
-```
+``` json
 { custid: int, type: W/D, date: now, amt: int }
 ```
 so a couple samples in python Dicts.
-```
+``` json
 { custid: 55, type: "Dep", date: 1587398219, amt: 10000 }
 { custid: 55, type: "Wth", date: 1587398301, amt: 2500 }
 ```
@@ -44,7 +44,7 @@ customer who's id is 55, Withdraw, at time 1587398301, a total of $25.00
 those dates are Unix Epoch second timestamps. [Unix Time](https://en.wikipedia.org/wiki/Unix_time)
 
 to create a new kafka topic (the one you need for the phase1 scripts to work. You only need to do this once.)
-```bash
+``` bash
 kafka-topics --create \
 --zookeeper localhost:2181 \
 --replication-factor 1 \
@@ -77,7 +77,6 @@ class Transaction(Base):
  ```
 
  Read through the producer in phase1. See where it is generating random transaction sizes, and random on whether it's a deposit or withdrawal. (and random on what customer id is used for the transaction)
-
 
 ## Phase 2
 
@@ -115,7 +114,7 @@ class Customer(Base):
     lname = Column(String(250), nullable=False)
  ```
 a couple samples in python Dicts.
-```
+``` json
 { custid: 55, createdate: 1587398219, fname: 'Lisa' lname: 'Loopner' }
 { custid: 56, createdate: 1587398301, fname: 'Todd' lname: 'Cushman' }
 ```
