@@ -79,8 +79,23 @@ class Transaction(Base):
  Read through the producer in phase1. See where it is generating random transaction sizes, and random on whether it's a deposit or withdrawal. (and random on what customer id is used for the transaction)
 
 
- ## Phase 2
+## Phase 2
 
+Build two "analytical" consumers. One, build a consumer that everytime it starts, produces an on-going statistical summary of all the transactions seen by the system. Two, build a "limit" watcher. This is a made-up idea, but the idea is watch for accounts that exceed a certain negative number, say -5000, and print an error message when that happens.
+
+Unless you need to, don't bother to store any of the output or state in the SQL DB, just keep it in memory.
+
+### SummaryConsumer
+
+SummaryConsumer should produce a list of outputs, the status of the
+mean (avg) deposits and mean withdrawals across all customers. You should also print the standard deviation of the distribution for both deposits and withdrawals.
+As each transaction comes in, print a new status of the numerical summaries.
+
+### LimitConsumer
+
+LimitConsumer should keep track of the customer ids that have current balances greater or equal to the limit supplied to the constructor. The intro suggests -5000 for eaxmple, but you should be able set that with a parameter to the class' Constructor
+
+## Phase 3
 Add different branches for the production of transactions.
 
 Each branch has a branch id, and a different partition in kafka. The consumers for each partition need to handle their branch's customer's transactions.
