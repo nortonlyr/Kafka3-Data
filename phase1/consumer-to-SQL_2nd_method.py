@@ -21,9 +21,6 @@ class XactionConsumer:
         self.conn = self.mysql_engine.connect()
 
 
-
-
-
     def handleMessages(self):
         for message in self.consumer:
             message = message.value
