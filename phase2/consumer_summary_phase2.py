@@ -38,6 +38,7 @@ class XactionConsumer:
                 self.dep_counter += 1
                 self.dep_avg = round(self.dep_total / self.dep_counter, 2)
                 self.dep_list.append(message['amt'])
+
                 if len(self.dep_list) > 1:
                     dep_stdev = round(statistics.stdev(self.dep_list), 2)
 
@@ -47,6 +48,7 @@ class XactionConsumer:
                 self.wth_counter += 1
                 self.wth_avg = round(self.wth_total / self.wth_counter, 2)
                 self.wth_list.append(message['amt'])
+
                 if len(self.wth_list) > 1:
                     wth_stdev = round(statistics.stdev(self.wth_list),2)
 
